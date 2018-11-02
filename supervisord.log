@@ -1,0 +1,32 @@
+2018-10-11 17:34:48,137 CRIT Supervisor running as root (no user in config file)
+2018-10-11 17:34:48,137 INFO Included extra file "/autostart/nginx.conf" during parsing
+2018-10-11 17:34:48,137 INFO Included extra file "/autostart/php-fpm.conf" during parsing
+2018-10-11 17:34:48,141 INFO supervisord started with pid 1
+2018-10-11 17:34:49,145 INFO spawned: 'nginx' with pid 10
+2018-10-11 17:34:49,148 INFO spawned: 'php-fpm' with pid 11
+2018-10-11 17:34:50,317 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2018-10-11 17:34:50,317 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2018-10-12 14:39:35,095 WARN received SIGTERM indicating exit request
+2018-10-12 14:39:35,095 INFO waiting for nginx, php-fpm to die
+2018-10-12 14:39:35,106 INFO stopped: php-fpm (exit status 0)
+2018-10-12 14:39:35,110 INFO stopped: nginx (exit status 0)
+2018-10-12 14:39:39,001 CRIT Supervisor running as root (no user in config file)
+2018-10-12 14:39:39,001 INFO Included extra file "/autostart/nginx.conf" during parsing
+2018-10-12 14:39:39,001 INFO Included extra file "/autostart/php-fpm.conf" during parsing
+2018-10-12 14:39:39,005 INFO supervisord started with pid 1
+2018-10-12 14:39:40,009 INFO spawned: 'nginx' with pid 9
+2018-10-12 14:39:40,012 INFO spawned: 'php-fpm' with pid 10
+2018-10-12 14:39:41,039 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2018-10-12 14:39:41,040 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2018-10-12 15:25:09,597 WARN received SIGTERM indicating exit request
+2018-10-12 15:25:09,600 INFO waiting for nginx, php-fpm to die
+2018-10-12 15:25:09,607 INFO stopped: php-fpm (exit status 0)
+2018-10-12 15:25:09,612 INFO stopped: nginx (exit status 0)
+2018-10-12 15:25:36,383 CRIT Supervisor running as root (no user in config file)
+2018-10-12 15:25:36,384 INFO Included extra file "/autostart/nginx.conf" during parsing
+2018-10-12 15:25:36,384 INFO Included extra file "/autostart/php-fpm.conf" during parsing
+2018-10-12 15:25:36,388 INFO supervisord started with pid 1
+2018-10-12 15:25:37,392 INFO spawned: 'nginx' with pid 10
+2018-10-12 15:25:37,395 INFO spawned: 'php-fpm' with pid 11
+2018-10-12 15:25:38,579 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2018-10-12 15:25:38,579 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

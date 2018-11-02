@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'usage_help'           => 'Her ayarın değerini sitenizdeki herhangi bir yerinden çağırabilirisiniz',
+    'save'                 => 'Ayarları Kaydet',
+    'new'                  => 'Yeni Ayarlar',
+    'help_name'            => 'Ayar Adı ör: Yönetici paneli',
+    'help_key'             => 'Ayar anahtarı ör: yonetici_paneli',
+    'help_option'          => '(İsteğe bağlı, sadece dropdown yada opsiyonel seçim gibi belirli türlerde geçerlidir)',
+    'add_new'              => 'Yeni Ayar ekle',
+    'delete_question'      => ':setting ayarını silmek istediğinize emin misiniz?',
+    'delete_confirm'       => 'Evet, bu Ayarı Sil',
+    'successfully_created' => 'Ayar başarıyla oluşturuldu.',
+    'successfully_saved'   => 'Ayar başarıyla kaydedildi.',
+    'successfully_deleted' => 'Ayar başarıyla silindi.',
+    'already_at_top'       => 'Zaten Listenin en üstünde',
+    'already_at_bottom'    => 'Zaten listenin en altında',
+    'moved_order_up'       => ':name ayarı yukarı taşındı',
+    'moved_order_down'     => ':name ayarı aşağı taşındı',
+    'key_already_exists'   => ':key anahtarı zaten var',
+    'successfully_removed' => ':name değeri başarılı bir şekilde silindi.',
+    'group_general'        => 'Genel',
+    'group_admin'          => 'Yönetici',
+    'group_site'           => 'Site',
+    'group'                => 'Grup',
+    'help_group'           => 'Ayarların atandığı grup',
+];
