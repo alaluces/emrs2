@@ -13,7 +13,7 @@ git clone https://github.com/alaluces/emrs2.git .
 ```
 Edit database connection
 ```sh
-cp .env.example
+cp .env.example .env
 vim .env
 ```
   - DB_CONNECTION=mysql
@@ -32,7 +32,7 @@ Generate symlink
 ```sh
 php artisan storage:link
 or
-ln -s ../storage/app/public storage
+ln -s ../storage/app/public public/storage
 ```
 Build the docker image
 ```sh
@@ -51,5 +51,7 @@ docker run -d --rm --name temp -v $PWD/emrs2/:/var/www/html -p80:80 emrs2
 If built successfully, it can be viewed on:
 ```sh
 http://<SERVER_IP_ADDRESS>/admin
+username: admin@admin.com
+passsword:password
 ```
 
