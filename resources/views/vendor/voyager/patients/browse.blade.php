@@ -192,8 +192,8 @@
                                                 @include('voyager::bread.partials.actions', ['action' => $action])
                                             @endforeach
 
-                                            <a href="{{ URL::to('/admin/appointments/') }}/{{ $data->getKey() }}" title="Appointments" class="btn btn-sm btn-warning pull-right view">
-                                            <i class="voyager-eye"></i><span class="hidden-xs hidden-sm">Appt</span></a>
+                                            <a href="javascript:;" title="Appointments" class="btn btn-sm btn-success book" data-id="{{ $data->getKey() }}">
+                                            <i class="voyager-calendar"></i> <span class="hidden-xs hidden-sm">Book</span></a>
 
                                         </td>
                                     </tr>
@@ -239,6 +239,25 @@
                         {{ method_field('DELETE') }}
                         {{ csrf_field() }}
                         <input type="submit" class="btn btn-danger pull-right delete-confirm" value="{{ __('voyager::generic.delete_confirm') }}">
+                    </form>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    {{-- Single delete modal --}}
+    <div class="modal modal-danger fade" tabindex="-1" id="book_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="voyager-calendar"></i> Add patient to wait list?</h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="#" id="book_form" method="POST">
+                        {{ csrf_field() }}
+                        <input type="submit" class="btn btn-info pull-right " value="{{ __('voyager::generic.delete_confirm') }}">
                     </form>
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
                 </div>
@@ -292,6 +311,12 @@
         $('td').on('click', '.delete', function (e) {
             $('#delete_form')[0].action = '{{ route('voyager.'.$dataType->slug.'.destroy', ['id' => '__id']) }}'.replace('__id', $(this).data('id'));
             $('#delete_modal').modal('show');
+        });
+
+        $('td').on('click', '.book', function (e) {
+            $('#delete_form')[0].action = '{{ URL::to('/admin/appointments/set/__id') }}'.replace('__id', $(this).data('id'));
+            console.log($('#delete_form')[0].action);
+            $('#book_modal').modal('show');
         });
     </script>
 @stop
