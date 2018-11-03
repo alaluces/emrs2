@@ -247,7 +247,7 @@
     </div><!-- /.modal -->
 
     {{-- Single delete modal --}}
-    <div class="modal modal-danger fade" tabindex="-1" id="book_modal" role="dialog">
+    <div class="modal modal-info fade" tabindex="-1" id="book_modal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -257,7 +257,7 @@
                 <div class="modal-footer">
                     <form action="#" id="book_form" method="POST">
                         {{ csrf_field() }}
-                        <input type="submit" class="btn btn-info pull-right " value="{{ __('voyager::generic.delete_confirm') }}">
+                        <input type="submit" class="btn btn-info pull-right " value="Yes, add to wait list">
                     </form>
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>
                 </div>
@@ -314,8 +314,8 @@
         });
 
         $('td').on('click', '.book', function (e) {
-            $('#delete_form')[0].action = '{{ URL::to('/admin/appointments/set/__id') }}'.replace('__id', $(this).data('id'));
-            console.log($('#delete_form')[0].action);
+            $('#book_form')[0].action = '{{ URL::to('/admin/appointments/add/__id') }}'.replace('__id', $(this).data('id'));
+            //console.log($('#delete_form')[0].action);
             $('#book_modal').modal('show');
         });
     </script>

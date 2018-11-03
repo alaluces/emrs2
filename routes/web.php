@@ -18,4 +18,11 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    // My custom routes
+    Route::post('appointments/add/{id}', ['uses' => 'Appointment@add', 'as' => 'add']);
+
+
+
 });
+
+//Route::post('login', ['uses' => $namespacePrefix.'VoyagerAuthController@postLogin', 'as' => 'postlogin']);
