@@ -5,7 +5,7 @@
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">
-            <i class="{{ $dataType->icon }}"></i> {{ $dataType->display_name_plural }}
+            <i class="voyager-group"></i> {{ $dataType->display_name_plural }}
         </h1>
         @can('add', app($dataType->model_name))
             <a href="{{ route('voyager.'.$dataType->slug.'.create') }}" class="btn btn-success btn-add-new">
@@ -191,7 +191,7 @@
                                             @foreach(Voyager::actions() as $action)
                                                 @include('voyager::bread.partials.actions', ['action' => $action])
                                             @endforeach
-                                                                                       
+
                                             <a href="{{ URL::to('/admin/appointments/') }}/{{ $data->getKey() }}" title="Appointments" class="btn btn-sm btn-warning pull-right view">
                                             <i class="voyager-eye"></i><span class="hidden-xs hidden-sm">Appt</span></a>
 
