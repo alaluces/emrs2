@@ -17,9 +17,13 @@ Route::get('/', function () {
 
 
 Route::group(['prefix' => 'admin'], function () {
+
+    // Voyager routes
     Voyager::routes();
+
     // My custom routes
     Route::post('appointments/add/{id}', ['uses' => 'Appointment@add', 'as' => 'add']);
+    Route::get('appointments', ['uses' => 'Appointment@index', 'as' => 'appointments.index']);
 
 
 

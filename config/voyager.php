@@ -159,10 +159,11 @@ return [
             ],
         ],
 
-        'widgets' => [
-            'TCG\\Voyager\\Widgets\\UserDimmer',
-            'App\\Widgets\\AppointmentDimmer',
+        'widgets' => [            
+            'App\\Widgets\\AppointmentWaitingDimmer',
+            'App\\Widgets\\AppointmentOnGoingDimmer',
             'App\\Widgets\\PatientDimmer',
+            'TCG\\Voyager\\Widgets\\UserDimmer',
         ],
 
     ],
