@@ -25,18 +25,22 @@
                     </thead>
                     <tbody>
 
-                      @foreach ($patients as $patient)
-                          @continue($patient->appt_status == 'Ongoing')
-                          @continue($patient->appt_status == 'Done')
+                      @foreach ($appointments as $appointment)
+                          @continue($appointment->appt_status == 'Ongoing')
+                          @continue($appointment->appt_status == 'Done')
+                          @continue($appointment->appt_status == 'Cancelled')
                           <tr>
                             <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $patient->appt_status }}</td>
-                            <td>{{ $patient->appt_type }}</td>
+                            <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
+                            <td>{{ $appointment->appt_type }}</td>
                             <td>
                               <a href="javascript:;" class="btn btn-sm btn-success">
                               <i class="voyager-activity"></i> Start treatment</a>
-                              <a href="javascript:;" class="btn btn-sm btn-danger">
+
+                              <a href="javascript:;" class="btn btn-sm btn-danger cancel" data-id="{{ $appointment->id }}">
                               <i class="voyager-x"></i> Cancel</a>
+
+
                             </td>
                           </tr>
                       @endforeach
@@ -69,7 +73,17 @@
                       <tr><th>#</th><th>Name</th><th>Status</th></tr>
                     </thead>
                     <tbody>
+                      @foreach ($appointments as $appointment)
+                          @continue($appointment->appt_status == 'Ongoing')
+                          @continue($appointment->appt_status == 'Done')
+                          @continue($appointment->appt_status == 'Waiting')
+                          <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
+                            <td>{{ $appointment->appt_status }}</td>
 
+                          </tr>
+                      @endforeach
 
                     </tbody>
                   </table>
@@ -83,4 +97,34 @@
     </div>
 
 
+    {{-- cancel appointment modal --}}
+    <div class="modal modal-danger fade" tabindex="-1" id="cancel_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="voyager-calendar"></i> Cancel patient appointment?</h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="#" id="cancel_form" method="POST">
+                        {{ csrf_field() }}
+                        <input type="submit" class="btn btn-danger pull-right " value="Yes, cancel appointment">
+                    </form>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">No, do not cancel appointment</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+@stop
+
+@section('javascript')
+    <!-- DataTables -->
+    <script>
+        $('td').on('click', '.cancel', function (e) {
+            $('#cancel_form')[0].action = '{{ URL::to('/admin/appointments/cancel/__id') }}'.replace('__id', $(this).data('id'));
+            //console.log($('#delete_form')[0].action);
+            $('#cancel_modal').modal('show');
+        });
+    </script>
 @stop

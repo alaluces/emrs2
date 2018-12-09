@@ -10,13 +10,14 @@ class Appointment extends Controller
 
     public function index()
     {
-        $data = DB::table('appointments')
-        ->where('created_at', '>=', Carbon::today())
-        ->get();
+      $data = DB::table('appointments')
+      ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+      ->where('appointments.created_at', '>=', Carbon::today())
+      ->get();
 
         //$data = DB::table('appointments')->get();
 
-        return view('/admin/appointments', ['patients' => $data]);
+        return view('/admin/appointments', ['appointments' => $data]);
     }
 
     public function add(Request $request, $id)
@@ -32,6 +33,15 @@ class Appointment extends Controller
           'updated_at' => date('Y-m-d H:i:s'),
       ]);
       return redirect('/admin/appointments')->with(['message' => "Patient added to wait list", 'alert-type' => 'success']);
+    }
+
+    public function cancel($id)
+    {
+      //dd($id);
+      DB::table('appointments')
+                  ->where('id', $id)
+                  ->update(['appt_status' => 'Cancelled']);
+      return redirect('/admin/appointments')->with(['message' => "Appointment cancelled", 'alert-type' => 'success']);
     }
 }
 ///z2X5fdA
