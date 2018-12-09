@@ -7,7 +7,6 @@ use Carbon\Carbon;
 
 class Appointment extends Controller
 {
-
     public function index()
     {
       $data = DB::table('appointments')
@@ -22,9 +21,7 @@ class Appointment extends Controller
       ->where('appointments.created_at', '>=', Carbon::today())
       ->get();
 
-        //$data = DB::table('appointments')->get();
-
-        return view('/admin/appointments', ['appointments' => $data]);
+      return view('/admin/appointments', ['appointments' => $data]);
     }
 
     public function add(Request $request, $id)

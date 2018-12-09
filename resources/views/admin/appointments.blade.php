@@ -62,7 +62,16 @@
                     <tr><th>#</th><th>Name</th><th>Assigned Station</th></tr>
                   </thead>
                   <tbody>
+                    @foreach ($appointments as $appointment)
+                        @continue($appointment->appt_status == 'Ongoing')
+                        @continue($appointment->appt_status == 'Waiting')
+                        <tr>
+                          <td>{{ $loop->index + 1 }}</td>
+                          <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
+                          <td>{{ $appointment->appt_status }}</td>
 
+                        </tr>
+                    @endforeach
 
                   </tbody>
                 </table>
@@ -76,7 +85,6 @@
                     <tbody>
                       @foreach ($appointments as $appointment)
                           @continue($appointment->appt_status == 'Ongoing')
-                          @continue($appointment->appt_status == 'Done')
                           @continue($appointment->appt_status == 'Waiting')
                           <tr>
                             <td>{{ $loop->index + 1 }}</td>
@@ -85,7 +93,6 @@
 
                           </tr>
                       @endforeach
-
                     </tbody>
                   </table>
                </div>
