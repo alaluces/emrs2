@@ -11,7 +11,14 @@ class Appointment extends Controller
     public function index()
     {
       $data = DB::table('appointments')
-      ->join('patients', 'appointments.patient_id', '=', 'patients.id')
+      ->join('patients', 'patients.id', '=', 'appointments.patient_id')
+      ->select('appointments.id as appointment_id',
+      'patients.id as patient_id',
+      'appt_status',
+      'appt_type',
+      'first_name',
+      'last_name'
+      )
       ->where('appointments.created_at', '>=', Carbon::today())
       ->get();
 

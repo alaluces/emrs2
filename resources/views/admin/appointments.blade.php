@@ -9,7 +9,7 @@
         </h1>
     </div>
 @stop
-{{ dd($appointments) }}
+{{-- dd($appointments) --}}
 
 @section('content')
   <div class="page-content browse container-fluid">
@@ -35,10 +35,10 @@
                             <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
                             <td>{{ $appointment->appt_type }}</td>
                             <td>
-                              <a href="javascript:;" class="btn btn-sm btn-success start" data-id="{{ $appointment->id }}">
+                              <a href="javascript:;" class="btn btn-sm btn-success start" data-id="{{ $appointment->appointment_id }}">
                               <i class="voyager-activity"></i> Start treatment</a>
 
-                              <a href="javascript:;" class="btn btn-sm btn-danger cancel" data-id="{{ $appointment->id }}">
+                              <a href="javascript:;" class="btn btn-sm btn-danger cancel" data-id="{{ $appointment->appointment_id }}">
                               <i class="voyager-x"></i> Cancel</a>
 
 
