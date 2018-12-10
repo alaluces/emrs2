@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Validator;
 use App\Treatment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -10,15 +11,25 @@ class TreatmentController extends Controller
 {
     public function save(Request $request)
     {
-      $id           = trim($request->id);
-      $physician    = trim($request->physician);
-      $bp_diastolic = trim($request->bp_diastolic);
-      $bp_systolic  = trim($request->bp_systolic);
-      $notes        = trim($request->notes);
-      $weight_dry   = trim($request->weight_dry);
-      $weight_pre   = trim($request->weight_pre);
-      $weight_post  = trim($request->weight_post);
-      $weight_goal  = trim($request->weight_goal);
+      $request->validate([
+          'physician' => 'required',
+          'bp_diastolic' => 'required',
+          'bp_systolic' => 'required',
+          'weight_dry' => 'required',
+          'weight_pre' => 'required',
+          'weight_post' => 'required',
+          'weight_goal' => 'required',
+      ]);
+
+      $id           = trim($request->input('id', null));
+      $physician    = trim($request->input('physician'));
+      $bp_diastolic = trim($request->input('bp_diastolic'));
+      $bp_systolic  = trim($request->input('bp_systolic'));
+      $notes        = trim($request->input('notes'));
+      $weight_dry   = trim($request->input('weight_dry'));
+      $weight_pre   = trim($request->input('weight_pre'));
+      $weight_post  = trim($request->input('weight_post'));
+      $weight_goal  = trim($request->input('weight_goal'));
 
       $treatment = Treatment::updateOrCreate(
         ['id' => $id],
@@ -33,6 +44,8 @@ class TreatmentController extends Controller
           'weight_goal' => $weight_goal
         ]
       );
+
+      $id = $treatment->id;
 
       return redirect("/admin/treatments/$id/edit")->with(['message' => "Treatment updated", 'alert-type' => 'success']);
     }
