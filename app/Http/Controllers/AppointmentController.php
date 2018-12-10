@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class Appointment extends Controller
+class AppointmentController extends Controller
 {
     public function index()
     {

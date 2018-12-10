@@ -28,13 +28,12 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
     // My custom routes
-    Route::post('appointments/add/{id}', ['uses' => 'Appointment@add', 'as' => 'appointments.add']);
-    Route::post('appointments/cancel/{id}', ['uses' => 'Appointment@cancel', 'as' => 'appointments.cancel']);
-    Route::get('appointments', ['uses' => 'Appointment@index', 'as' => 'appointments.index']);
+    Route::post('appointments/add/{id}', ['uses' => 'AppointmentController@add', 'as' => 'appointments.add']);
+    Route::post('appointments/cancel/{id}', ['uses' => 'AppointmentController@cancel', 'as' => 'appointments.cancel']);
+    Route::get('appointments', ['uses' => 'AppointmentController@index', 'as' => 'appointments.index']);
 
-    //Route::get('treatments', ['uses' => 'Treatment@index', 'as' => 'treatments.index']);
-    Route::post('treatments/save/', ['uses' => 'Treatment@save', 'as' => 'treatments.save']);
-    Route::get('treatments/{id}/edit', ['uses' => 'Treatment@edit', 'as' => 'treatments.edit']);
+    Route::post('treatments/save/', ['uses' => 'TreatmentController@save', 'as' => 'treatments.save']);
+
 
 
 
