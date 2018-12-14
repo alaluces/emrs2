@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Appointment;
+use App\Treatment;
+use App\AppointmentTreatment;
 
 class AppointmentController extends Controller
 {
@@ -26,13 +29,11 @@ class AppointmentController extends Controller
 
     public function add(Request $request, $id)
     {
-      //dd($id);
       DB::table('appointments')->insert([
           'patient_id' => $id,
           'batch_id' => 1,
           'appt_status' => 'Waiting',
-          'appt_type' => 'Walk-in',
-          //'created_at' => date('2018-11-10 11:25:14'),
+          'appt_type' => 'Walk-in',          
           'created_at' => date('Y-m-d H:i:s'),
           'updated_at' => date('Y-m-d H:i:s'),
       ]);
@@ -41,11 +42,40 @@ class AppointmentController extends Controller
 
     public function cancel($id)
     {
-      //dd($id);
-      DB::table('appointments')
-                  ->where('id', $id)
-                  ->update(['appt_status' => 'Cancelled']);
+      $appointment = Appointment::find($id);
+      $appointment->appt_status = 'Cancelled';
+      $appointment->save();
       return redirect('/admin/appointments')->with(['message' => "Appointment cancelled", 'alert-type' => 'success']);
     }
+
+    public function startTreatmentByAppointmentId($id)
+    {
+      $appointment = Appointment::find($id);
+      $appointment->appt_status = 'On-Going';
+      $appointment->save();
+
+      $treatment = New Treatment;
+      $treatment->patient_id = $appointment->patient_id;
+      $treatment->save();
+
+      $appointmentTreatment = New AppointmentTreatment;
+      $appointmentTreatment->appointment_id = $id;
+      $appointmentTreatment->treatment_id = $treatment->id;
+      $appointmentTreatment->save();
+
+      return redirect("admin/treatments/view/" . $treatment->id);
+    }
+
+    public function viewTreatmentByAppointmentId($id)
+    {
+      $appointmentTreatment = AppointmentTreatment::where('appointment_id', '=', $id)->first();
+
+      if ($appointmentTreatment) {
+        $treatment_id = $appointmentTreatment->treatment_id;
+        return redirect("admin/treatments/view/$treatment_id");
+      } else {
+        return redirect("admin/appointments/")->with(['message' => "Treatment not found", 'alert-type' => 'error']);
+      }
+    }
+
 }
-///z2X5fdA

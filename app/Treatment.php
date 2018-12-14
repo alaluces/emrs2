@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class Treatment extends Model
 {
   protected $table = 'treatments';
@@ -17,7 +16,8 @@ class Treatment extends Model
     'weight_dry',
     'weight_pre',
     'weight_post',
-    'weight_goal'
+    'weight_goal',
+    'patient_id'
   ];
 
 }

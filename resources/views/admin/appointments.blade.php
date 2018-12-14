@@ -27,7 +27,7 @@
                     <tbody>
 
                       @foreach ($appointments as $appointment)
-                          @continue($appointment->appt_status == 'Ongoing')
+                          @continue($appointment->appt_status == 'On-Going')
                           @continue($appointment->appt_status == 'Done')
                           @continue($appointment->appt_status == 'Cancelled')
                           <tr>
@@ -35,7 +35,7 @@
                             <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
                             <td>{{ $appointment->appt_type }}</td>
                             <td>
-                              <a href="javascript:;" class="btn btn-sm btn-success start" data-id="{{ $appointment->appointment_id }}">
+                              <a href="javascript:;" class="btn btn-sm btn-success start_treatment" data-id="{{ $appointment->appointment_id }}">
                               <i class="voyager-activity"></i> Start treatment</a>
 
                               <a href="javascript:;" class="btn btn-sm btn-danger cancel" data-id="{{ $appointment->appointment_id }}">
@@ -59,17 +59,17 @@
                 <div class="panel-heading">ONGOING TREATMENTS</div>
                 <table class="table table-bordered" style="font-size:12px">
                   <thead>
-                    <tr><th>#</th><th>Name</th><th>Assigned Station</th></tr>
+                    <tr><th>#</th><th>Name</th><th>Link</th></tr>
                   </thead>
                   <tbody>
                     @foreach ($appointments as $appointment)
-                        @continue($appointment->appt_status == 'Ongoing')
+                        @continue($appointment->appt_status == 'Done')
+                        @continue($appointment->appt_status == 'Cancelled')
                         @continue($appointment->appt_status == 'Waiting')
                         <tr>
-                          <td>{{ $loop->index + 1 }}</td>
+                          <td><a href="{{ URL::to('admin/appointments/view/') }}/{{ $appointment->appointment_id }}">{{ $loop->iteration }}</a></td>
                           <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
-                          <td>{{ $appointment->appt_status }}</td>
-
+                          <td><a class="btn btn-sm btn-success" href="{{ URL::to('admin/appointments/view/') }}/{{ $appointment->appointment_id }}">View</a></td>
                         </tr>
                     @endforeach
 
@@ -84,13 +84,12 @@
                     </thead>
                     <tbody>
                       @foreach ($appointments as $appointment)
-                          @continue($appointment->appt_status == 'Ongoing')
+                          @continue($appointment->appt_status == 'On-Going')
                           @continue($appointment->appt_status == 'Waiting')
                           <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
                             <td>{{ $appointment->appt_status }}</td>
-
                           </tr>
                       @endforeach
                     </tbody>
@@ -106,7 +105,7 @@
 
 
     {{-- start treatment modal --}}
-    <div class="modal modal-success fade" tabindex="-1" id="start_modal" role="dialog">
+    <div class="modal modal-success fade" tabindex="-1" id="start_treatment_modal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -114,7 +113,7 @@
                     <h4 class="modal-title"><i class="voyager-calendar"></i> Start patient treatment?</h4>
                 </div>
                 <div class="modal-footer">
-                    <form action="#" id="start_form" method="POST">
+                    <form action="#" id="start_treatment_form" method="POST">
                         {{ csrf_field() }}
                         <input type="submit" class="btn btn-success pull-right " value="Yes, start treatment">
                     </form>
@@ -148,10 +147,10 @@
 @section('javascript')
     <!-- DataTables -->
     <script>
-        $('td').on('click', '.start', function (e) {
-            $('#start_form')[0].action = '{{ URL::to('/admin/appointments/cancel/__id') }}'.replace('__id', $(this).data('id'));
+        $('td').on('click', '.start_treatment', function (e) {
+            $('#start_treatment_form')[0].action = '{{ URL::to('/admin/appointments/start/__id') }}'.replace('__id', $(this).data('id'));
             //console.log($('#delete_form')[0].action);
-            $('#start_modal').modal('show');
+            $('#start_treatment_modal').modal('show');
         });
 
         $('td').on('click', '.cancel', function (e) {

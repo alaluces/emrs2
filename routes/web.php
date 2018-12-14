@@ -31,12 +31,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('appointments/add/{id}', ['uses' => 'AppointmentController@add', 'as' => 'appointments.add']);
     Route::post('appointments/cancel/{id}', ['uses' => 'AppointmentController@cancel', 'as' => 'appointments.cancel']);
     Route::get('appointments', ['uses' => 'AppointmentController@index', 'as' => 'appointments.index']);
+    Route::post('appointments/start/{id}', ['uses' => 'AppointmentController@startTreatmentByAppointmentId', 'as' => 'appointments.startTreatmentByAppointmentId']);
+    Route::get('appointments/view/{id}', ['uses' => 'AppointmentController@viewTreatmentByAppointmentId', 'as' => 'appointments.viewTreatmentByAppointmentId']);
 
     Route::post('treatments/save/', ['uses' => 'TreatmentController@save', 'as' => 'treatments.save']);
-
-
+    Route::get('treatments/view/{id}', ['uses' => 'TreatmentController@view', 'as' => 'treatments.view']);
 
 
 });
-
-//Route::post('login', ['uses' => $namespacePrefix.'VoyagerAuthController@postLogin', 'as' => 'postlogin']);

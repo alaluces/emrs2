@@ -3,7 +3,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Validator;
 use App\Treatment;
-use Illuminate\Support\Facades\DB;
+use App\Patient;
+use App\Appointment;
+use App\AppointmentTreatment;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -19,6 +21,7 @@ class TreatmentController extends Controller
           'weight_pre' => 'required',
           'weight_post' => 'required',
           'weight_goal' => 'required',
+          'patient_id' => 'required',
       ]);
 
       $id           = trim($request->input('id', null));
@@ -30,6 +33,7 @@ class TreatmentController extends Controller
       $weight_pre   = trim($request->input('weight_pre'));
       $weight_post  = trim($request->input('weight_post'));
       $weight_goal  = trim($request->input('weight_goal'));
+      $patient_id  = trim($request->input('patient_id'));
 
       $treatment = Treatment::updateOrCreate(
         ['id' => $id],
@@ -41,12 +45,31 @@ class TreatmentController extends Controller
           'weight_dry' => $weight_dry,
           'weight_pre' => $weight_pre,
           'weight_post' => $weight_post,
-          'weight_goal' => $weight_goal
+          'weight_goal' => $weight_goal,
+          'patient_id' => $patient_id
         ]
       );
 
       $id = $treatment->id;
 
-      return redirect("/admin/treatments/$id/edit")->with(['message' => "Treatment updated", 'alert-type' => 'success']);
+      if ($request->has('btn-done')) {
+        $appointmentTreatment = AppointmentTreatment::where('treatment_id', '=', $id)->first();
+        if ($appointmentTreatment) {
+          $appointment = Appointment::find($appointmentTreatment->appointment_id);
+          $appointment->appt_status = 'Done';
+          $appointment->save();
+        }
+      }
+
+      return redirect("/admin/treatments/view/$id")->with(['message' => "Treatment updated", 'alert-type' => 'success']);
     }
+
+    public function view($id)
+    {
+      $treatment = Treatment::find($id);
+      $patient = Patient::find($treatment->patient_id);
+
+      return view('vendor.voyager.treatments.edit-add', ['patient' => $patient, 'dataTypeContent' => $treatment]);
+    }
+
 }

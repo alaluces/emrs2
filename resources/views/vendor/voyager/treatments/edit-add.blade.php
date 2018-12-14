@@ -34,19 +34,33 @@
 
                   <table class="table table-bordered" style="font-size:12px">
                       <tbody>
+                        <tr>
+                           <td>Patient Name</td>
+                           <td><input class="form-control" value="{{ $patient->last_name ?? '' }}, {{ $patient->first_name ?? '' }}"></td>
+                       </tr>
+                       <tr>
+                          <td>Patient Name</td>
+                          <td>
+                            <div class="form-inline">
+                                 Gender  <input style="width:50px;" class="form-control" name="weight_dry" value="{{ $patient->gender ?? '' }}">
+                                 Birth Date  <input style="width:120px;" class="form-control" name="weight_pre" value="{{ $patient->birth_date ?? '' }}">
+                            </div>
+                          </td>
+                        </tr>
                         <form action="{{ URL::to('admin/treatments/save/') }}" id="start_form" method="POST">
                           {{ csrf_field() }}
-                          <input type="hidden" name="id" value="{{ $dataTypeContent->id }}">
+                          <input type="hidden" name="id" value="{{ $dataTypeContent->id ?? '' }}">
+                          <input type="hidden" name="patient_id" value="{{ $patient->id ?? '' }}">
                          <tr>
                             <td>Physician</td>
-                            <td><input class="form-control" name="physician" value="{{ $dataTypeContent->physician }}"></td>
+                            <td><input class="form-control" name="physician" value="{{ $dataTypeContent->physician ?? '' }}"></td>
                         </tr>
                         <tr>
                            <td>Blood Pressure</td>
                            <td>
                              <div class="form-inline">
-                                 <input style="width:50px;" class="form-control" name="bp_systolic" value="{{ $dataTypeContent->bp_systolic }}">
-                                 / <input style="width:50px;" class="form-control" name="bp_diastolic" value="{{ $dataTypeContent->bp_diastolic }}">
+                                 <input style="width:50px;" class="form-control" name="bp_systolic" value="{{ $dataTypeContent->bp_systolic ?? '' }}">
+                                 / <input style="width:50px;" class="form-control" name="bp_diastolic" value="{{ $dataTypeContent->bp_diastolic ?? '' }}">
                              </div>
                            </td>
                         </tr>
@@ -54,17 +68,17 @@
                            <td>Weight</td>
                            <td>
                              <div class="form-inline">
-                                 Dry  <input style="width:50px;" class="form-control" name="weight_dry" value="{{ $dataTypeContent->weight_dry }}">
-                                 Pre  <input style="width:50px;" class="form-control" name="weight_pre" value="{{ $dataTypeContent->weight_pre }}">
-                                 Post <input style="width:50px;" class="form-control" name="weight_post" value="{{ $dataTypeContent->weight_post }}">
-                                 Goal <input style="width:50px;" class="form-control" name="weight_goal" value="{{ $dataTypeContent->weight_goal }}">
+                                 Dry  <input style="width:50px;" class="form-control" name="weight_dry" value="{{ $dataTypeContent->weight_dry ?? '' }}">
+                                 Pre  <input style="width:50px;" class="form-control" name="weight_pre" value="{{ $dataTypeContent->weight_pre ?? '' }}">
+                                 Post <input style="width:50px;" class="form-control" name="weight_post" value="{{ $dataTypeContent->weight_post ?? '' }}">
+                                 Goal <input style="width:50px;" class="form-control" name="weight_goal" value="{{ $dataTypeContent->weight_goal ?? '' }}">
                              </div>
                            </td>
                         </tr>
                         <tr>
                            <td>Notes</td>
                            <td>
-                             <textarea class="form-control" name="notes">{{ $dataTypeContent->notes }}</textarea>
+                             <textarea class="form-control" name="notes">{{ $dataTypeContent->notes ?? '' }}</textarea>
                            </td>
                         </tr>
 
@@ -72,8 +86,8 @@
                            <td></td>
                            <td>
                              <div class="form-inline">
-                               <button type="submit" class="btn btn-success" >Save</button>
-                               <button type="button" class="btn btn-info pull-right">Save and complete treatment</button>
+                               <button type="submit" name="btn-save" value="1" class="btn btn-success" >Save</button>
+                               <button type="submit" name="btn-done" value="1" class="btn btn-info pull-right">Save and complete treatment</button>
                              </div>
                            </td>
                         </tr>
@@ -84,8 +98,6 @@
                   </table>
                 </div>
             </div>
-
-
       </div>
     </div>
   </div>

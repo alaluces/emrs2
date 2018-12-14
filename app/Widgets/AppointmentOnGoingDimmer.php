@@ -25,7 +25,7 @@ class AppointmentOnGoingDimmer extends BaseDimmer
     public function run()
     {
         $count = Appointment::whereDate('created_at', Carbon::today())
-        ->where('appt_status', '=', 'Ongoing')
+        ->where('appt_status', '=', 'On-Going')
         ->count();
         $string = 'patients on treatment';
 
