@@ -47,7 +47,7 @@
                             </div>
                           </td>
                         </tr>
-                        <form action="{{ URL::to('admin/treatments/save/') }}" id="start_form" method="POST">
+                        <form action="{{ URL::to('emrs/treatments/save/') }}" id="start_form" method="POST">
                           {{ csrf_field() }}
                           <input type="hidden" name="id" value="{{ $dataTypeContent->id ?? '' }}">
                           <input type="hidden" name="patient_id" value="{{ $patient->id ?? '' }}">
@@ -146,13 +146,13 @@
     <!-- DataTables -->
     <script>
         $('td').on('click', '.start', function (e) {
-            $('#start_form')[0].action = '{{ URL::to('/admin/appointments/cancel/__id') }}'.replace('__id', $(this).data('id'));
+            $('#start_form')[0].action = '{{ URL::to('/emrs/appointments/cancel/__id') }}'.replace('__id', $(this).data('id'));
             //console.log($('#delete_form')[0].action);
             $('#start_modal').modal('show');
         });
 
         $('td').on('click', '.cancel', function (e) {
-            $('#cancel_form')[0].action = '{{ URL::to('/admin/appointments/cancel/__id') }}'.replace('__id', $(this).data('id'));
+            $('#cancel_form')[0].action = '{{ URL::to('/emrs/appointments/cancel/__id') }}'.replace('__id', $(this).data('id'));
             //console.log($('#delete_form')[0].action);
             $('#cancel_modal').modal('show');
         });

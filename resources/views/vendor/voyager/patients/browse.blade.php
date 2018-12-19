@@ -314,7 +314,7 @@
         });
 
         $('td').on('click', '.book', function (e) {
-            $('#book_form')[0].action = '{{ URL::to('/admin/appointments/add/__id') }}'.replace('__id', $(this).data('id'));
+            $('#book_form')[0].action = '{{ URL::to('/emrs/appointments/add/__id') }}'.replace('__id', $(this).data('id'));
             //console.log($('#delete_form')[0].action);
             $('#book_modal').modal('show');
         });

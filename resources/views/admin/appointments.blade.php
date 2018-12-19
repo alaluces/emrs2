@@ -67,9 +67,9 @@
                         @continue($appointment->appt_status == 'Cancelled')
                         @continue($appointment->appt_status == 'Waiting')
                         <tr>
-                          <td><a href="{{ URL::to('admin/appointments/view/') }}/{{ $appointment->appointment_id }}">{{ $loop->iteration }}</a></td>
+                          <td><a href="{{ URL::to('emrs/appointments/view/') }}/{{ $appointment->appointment_id }}">{{ $loop->iteration }}</a></td>
                           <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
-                          <td><a class="btn btn-sm btn-success" href="{{ URL::to('admin/appointments/view/') }}/{{ $appointment->appointment_id }}">View</a></td>
+                          <td><a class="btn btn-sm btn-success" href="{{ URL::to('emrs/appointments/view/') }}/{{ $appointment->appointment_id }}">View</a></td>
                         </tr>
                     @endforeach
 
@@ -148,13 +148,13 @@
     <!-- DataTables -->
     <script>
         $('td').on('click', '.start_treatment', function (e) {
-            $('#start_treatment_form')[0].action = '{{ URL::to('/admin/appointments/start/__id') }}'.replace('__id', $(this).data('id'));
+            $('#start_treatment_form')[0].action = '{{ URL::to('/emrs/appointments/start/__id') }}'.replace('__id', $(this).data('id'));
             //console.log($('#delete_form')[0].action);
             $('#start_treatment_modal').modal('show');
         });
 
         $('td').on('click', '.cancel', function (e) {
-            $('#cancel_form')[0].action = '{{ URL::to('/admin/appointments/cancel/__id') }}'.replace('__id', $(this).data('id'));
+            $('#cancel_form')[0].action = '{{ URL::to('/emrs/appointments/cancel/__id') }}'.replace('__id', $(this).data('id'));
             //console.log($('#delete_form')[0].action);
             $('#cancel_modal').modal('show');
         });

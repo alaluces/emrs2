@@ -24,7 +24,7 @@ class AppointmentController extends Controller
       ->where('appointments.created_at', '>=', Carbon::today())
       ->get();
 
-      return view('/admin/appointments', ['appointments' => $data]);
+      return view('admin/appointments', ['appointments' => $data]);
     }
 
     public function add(Request $request, $id)
@@ -33,11 +33,11 @@ class AppointmentController extends Controller
           'patient_id' => $id,
           'batch_id' => 1,
           'appt_status' => 'Waiting',
-          'appt_type' => 'Walk-in',          
+          'appt_type' => 'Walk-in',
           'created_at' => date('Y-m-d H:i:s'),
           'updated_at' => date('Y-m-d H:i:s'),
       ]);
-      return redirect('/admin/appointments')->with(['message' => "Patient added to wait list", 'alert-type' => 'success']);
+      return redirect('emrs/appointments')->with(['message' => "Patient added to wait list", 'alert-type' => 'success']);
     }
 
     public function cancel($id)
@@ -45,7 +45,7 @@ class AppointmentController extends Controller
       $appointment = Appointment::find($id);
       $appointment->appt_status = 'Cancelled';
       $appointment->save();
-      return redirect('/admin/appointments')->with(['message' => "Appointment cancelled", 'alert-type' => 'success']);
+      return redirect('emrs/appointments')->with(['message' => "Appointment cancelled", 'alert-type' => 'success']);
     }
 
     public function startTreatmentByAppointmentId($id)
@@ -63,7 +63,7 @@ class AppointmentController extends Controller
       $appointmentTreatment->treatment_id = $treatment->id;
       $appointmentTreatment->save();
 
-      return redirect("admin/treatments/view/" . $treatment->id);
+      return redirect("emrs/treatments/view/" . $treatment->id);
     }
 
     public function viewTreatmentByAppointmentId($id)
@@ -72,9 +72,9 @@ class AppointmentController extends Controller
 
       if ($appointmentTreatment) {
         $treatment_id = $appointmentTreatment->treatment_id;
-        return redirect("admin/treatments/view/$treatment_id");
+        return redirect("emrs/treatments/view/$treatment_id");
       } else {
-        return redirect("admin/appointments/")->with(['message' => "Treatment not found", 'alert-type' => 'error']);
+        return redirect("emrs/appointments/")->with(['message' => "Treatment not found", 'alert-type' => 'error']);
       }
     }
 

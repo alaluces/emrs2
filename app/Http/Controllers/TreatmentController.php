@@ -61,7 +61,7 @@ class TreatmentController extends Controller
         }
       }
 
-      return redirect("/admin/treatments/view/$id")->with(['message' => "Treatment updated", 'alert-type' => 'success']);
+      return redirect("/emrs/treatments/view/$id")->with(['message' => "Treatment updated", 'alert-type' => 'success']);
     }
 
     public function view($id)

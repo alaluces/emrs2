@@ -22,7 +22,7 @@ Route::group(['prefix' => 'voyager'], function () {
     Voyager::routes();
 });
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'emrs'], function () {
 
     // Voyager routes
     Voyager::routes();
