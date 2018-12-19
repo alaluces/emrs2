@@ -11,16 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-    // Voyager routes
-
-});
-
 Route::group(['prefix' => 'voyager'], function () {
     // Voyager routes
     Voyager::routes();
 });
+
+$router->get('/', ['as' => 'root', function () {
+    return redirect("/emrs/");
+}]);
+
+$router->get('admin', ['as' => 'admin', function () {
+    return redirect("/emrs/");
+}]);
 
 Route::group(['prefix' => 'emrs'], function () {
 
@@ -36,6 +38,5 @@ Route::group(['prefix' => 'emrs'], function () {
 
     Route::post('treatments/save/', ['uses' => 'TreatmentController@save', 'as' => 'treatments.save']);
     Route::get('treatments/view/{id}', ['uses' => 'TreatmentController@view', 'as' => 'treatments.view']);
-
 
 });
