@@ -12,6 +12,21 @@ class AppointmentController extends Controller
 {
     public function index()
     {
+      $waiting   = $this->getAppointmentsByStatus('Waiting');
+      $done      = $this->getAppointmentsByStatus('Done');
+      $cancelled = $this->getAppointmentsByStatus('Cancelled');
+      $ongiong   = $this->getAppointmentsByStatus('On-Going');
+
+      return view('admin/appointments', [
+        'waiting_patients' => $waiting,
+        'cancelled_patients' => $cancelled,
+        'done_patients' => $done,
+        'ongoing_patients' => $ongiong
+      ]);
+    }
+
+    public function getAppointmentsByStatus($status)
+    {
       $data = DB::table('appointments')
       ->join('patients', 'patients.id', '=', 'appointments.patient_id')
       ->select('appointments.id as appointment_id',
@@ -22,10 +37,13 @@ class AppointmentController extends Controller
       'last_name'
       )
       ->where('appointments.created_at', '>=', Carbon::today())
+      ->where('appointments.appt_status', '=', $status)
       ->get();
 
-      return view('admin/appointments', ['appointments' => $data]);
+      return $data;
     }
+
+
 
     public function add(Request $request, $id)
     {

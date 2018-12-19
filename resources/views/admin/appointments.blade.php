@@ -9,7 +9,7 @@
         </h1>
     </div>
 @stop
-{{-- dd($appointments) --}}
+{{-- dd($done_cancelled_patients) --}}
 
 @section('content')
   <div class="page-content browse container-fluid">
@@ -22,31 +22,26 @@
                   <div class="panel-heading">Today's Wait List - {{ date("Ymd") }}</div>
                   <table class="table table-bordered" style="font-size:12px">
                     <thead>
-                      <tr><th>#</th><th>Name</th><th>Appt Type</th><th>Actions</th></tr>
+                      <tr><th>#</th><th>Name</th><th>Appointment Type</th><th>Actions</th></tr>
                     </thead>
                     <tbody>
-
-                      @foreach ($appointments as $appointment)
-                          @continue($appointment->appt_status == 'On-Going')
-                          @continue($appointment->appt_status == 'Done')
-                          @continue($appointment->appt_status == 'Cancelled')
+                      @php $x = 1 @endphp
+                      @foreach ($waiting_patients as $waiting)
                           <tr>
-                            <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
-                            <td>{{ $appointment->appt_type }}</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $waiting->first_name }} {{ $waiting->last_name }}</td>
+                            <td>{{ $waiting->appt_type }}</td>
                             <td>
-                              <a href="javascript:;" class="btn btn-sm btn-success start_treatment" data-id="{{ $appointment->appointment_id }}">
+                              <a href="javascript:;" class="btn btn-sm btn-success start_treatment" data-id="{{ $waiting->appointment_id }}">
                               <i class="voyager-activity"></i> Start treatment</a>
-
-                              <a href="javascript:;" class="btn btn-sm btn-danger cancel" data-id="{{ $appointment->appointment_id }}">
+                              <a href="javascript:;" class="btn btn-sm btn-danger cancel" data-id="{{ $waiting->appointment_id }}">
                               <i class="voyager-x"></i> Cancel</a>
-
-
                             </td>
                           </tr>
+                          @php $x = $loop->count @endphp
                       @endforeach
-                      @for ($i = 0; $i < 10; $i++)
-                          <tr><td>{{ $i }}</td><td></td><td></td><td></td></tr>
+                      @for ($i = $x + 1; $i <= 10; $i++)
+                          <tr style="height:60px"><td>{{ $i }}</td><td></td><td></td><td></td></tr>
                       @endfor
 
                     </tbody>
@@ -62,17 +57,18 @@
                     <tr><th>#</th><th>Name</th><th>Link</th></tr>
                   </thead>
                   <tbody>
-                    @foreach ($appointments as $appointment)
-                        @continue($appointment->appt_status == 'Done')
-                        @continue($appointment->appt_status == 'Cancelled')
-                        @continue($appointment->appt_status == 'Waiting')
+                    @php $x = 1 @endphp
+                    @foreach ($ongoing_patients as $ongoing)
                         <tr>
-                          <td><a href="{{ URL::to('emrs/appointments/view/') }}/{{ $appointment->appointment_id }}">{{ $loop->iteration }}</a></td>
-                          <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
-                          <td><a class="btn btn-sm btn-success" href="{{ URL::to('emrs/appointments/view/') }}/{{ $appointment->appointment_id }}">View</a></td>
+                          <td><a href="{{ URL::to('emrs/appointments/view/') }}/{{ $ongoing->appointment_id }}">{{ $loop->iteration }}</a></td>
+                          <td>{{ $ongoing->first_name }} {{ $ongoing->last_name }}</td>
+                          <td><a class="btn btn-sm btn-success" href="{{ URL::to('emrs/appointments/view/') }}/{{ $ongoing->appointment_id }}">View</a></td>
                         </tr>
+                        @php $x = $loop->count @endphp
                     @endforeach
-
+                    @for ($i = $x + 1; $i <= 10; $i++)
+                        <tr style="height:60px"><td>{{ $i }}</td><td></td><td></td></tr>
+                    @endfor
                   </tbody>
                 </table>
              </div>
@@ -83,22 +79,25 @@
                       <tr><th>#</th><th>Name</th><th>Status</th></tr>
                     </thead>
                     <tbody>
-                      @foreach ($appointments as $appointment)
-                          @continue($appointment->appt_status == 'On-Going')
-                          @continue($appointment->appt_status == 'Waiting')
+                      @foreach ($cancelled_patients as $cancelled)
                           <tr>
                             <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $appointment->first_name }} {{ $appointment->last_name }}</td>
-                            <td>{{ $appointment->appt_status }}</td>
+                            <td>{{ $cancelled->first_name }} {{ $cancelled->last_name }}</td>
+                            <td>{{ $cancelled->appt_status }}</td>
                           </tr>
                       @endforeach
+                      @foreach ($done_patients as $done)
+                          <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $done->first_name }} {{ $done->last_name }}</td>
+                            <td>{{ $done->appt_status }}</td>
+                          </tr>
+                      @endforeach
+
                     </tbody>
                   </table>
                </div>
-
-
             </div>
-
           </div>
       </div>
     </div>
