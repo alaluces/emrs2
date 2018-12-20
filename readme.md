@@ -42,7 +42,7 @@ Build the docker image
 cd ..
 mkdir emrs2-image
 cd emrs2-image
-git clone https://github.com/alaluces/Docker-Nginx-PHP.git .
+git https://github.com/alaluces/Docker-Nginx-Php-Laravel.git .
 docker build -t emrs2 .
 cd ..
 ```
