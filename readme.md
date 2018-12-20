@@ -11,6 +11,9 @@ mkdir emrs2
 cd emrs2
 git clone https://github.com/alaluces/emrs2.git .
 ```
+
+Import the database from the database directory
+
 Edit database connection
 ```sh
 cp .env.example .env
@@ -40,7 +43,7 @@ cd ..
 mkdir emrs2-image
 cd emrs2-image
 git clone https://github.com/alaluces/Docker-Nginx-PHP.git .
-docker build -t emrs2
+docker build -t emrs2 .
 cd ..
 ```
 Run the image you built
