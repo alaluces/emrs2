@@ -25,7 +25,7 @@
                       <tr><th>#</th><th>Name</th><th>Appointment Type</th><th>Actions</th></tr>
                     </thead>
                     <tbody>
-                      @php $x = 1 @endphp
+                      @php $x = 1; @endphp
                       @foreach ($waiting_patients as $waiting)
                           <tr>
                             <td>{{ $loop->iteration }}</td>
@@ -38,9 +38,9 @@
                               <i class="voyager-x"></i> Cancel</a>
                             </td>
                           </tr>
-                          @php $x = $loop->count @endphp
+                          @php $x = $loop->count + 1 @endphp
                       @endforeach
-                      @for ($i = $x + 1; $i <= 10; $i++)
+                      @for ($i = $x; $i <= 10; $i++)
                           <tr style="height:60px"><td>{{ $i }}</td><td></td><td></td><td></td></tr>
                       @endfor
 
@@ -57,16 +57,16 @@
                     <tr><th>#</th><th>Name</th><th>Link</th></tr>
                   </thead>
                   <tbody>
-                    @php $x = 1 @endphp
+                    @php $x = 1; @endphp
                     @foreach ($ongoing_patients as $ongoing)
                         <tr>
                           <td><a href="{{ URL::to('emrs/appointments/view/') }}/{{ $ongoing->appointment_id }}">{{ $loop->iteration }}</a></td>
                           <td>{{ $ongoing->first_name }} {{ $ongoing->last_name }}</td>
                           <td><a class="btn btn-sm btn-success" href="{{ URL::to('emrs/appointments/view/') }}/{{ $ongoing->appointment_id }}">View</a></td>
                         </tr>
-                        @php $x = $loop->count @endphp
+                        @php $x = $loop->count + 1 @endphp
                     @endforeach
-                    @for ($i = $x + 1; $i <= 10; $i++)
+                    @for ($i = $x; $i <= 10; $i++)
                         <tr style="height:60px"><td>{{ $i }}</td><td></td><td></td></tr>
                     @endfor
                   </tbody>
