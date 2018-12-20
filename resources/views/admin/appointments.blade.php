@@ -76,19 +76,17 @@
                   <div class="panel-heading">Done / Cancelled</div>
                   <table class="table table-bordered" style="font-size:12px">
                     <thead>
-                      <tr><th>#</th><th>Name</th><th>Status</th></tr>
+                      <tr><th>Name</th><th>Status</th></tr>
                     </thead>
                     <tbody>
                       @foreach ($cancelled_patients as $cancelled)
                           <tr>
-                            <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $cancelled->first_name }} {{ $cancelled->last_name }}</td>
                             <td>{{ $cancelled->appt_status }}</td>
                           </tr>
                       @endforeach
                       @foreach ($done_patients as $done)
                           <tr>
-                            <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $done->first_name }} {{ $done->last_name }}</td>
                             <td>{{ $done->appt_status }}</td>
                           </tr>
