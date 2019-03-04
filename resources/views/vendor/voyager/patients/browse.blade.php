@@ -257,6 +257,7 @@
                 <div class="modal-footer">
                     <form action="#" id="book_form" method="POST">
                         {{ csrf_field() }}
+                        Appointment date: <input type="date" value="{{ date('Y-m-d') }}" name="appt_date" > <br/><br/>
                         <input type="submit" class="btn btn-info pull-right " value="Yes, add to wait list">
                     </form>
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('voyager::generic.cancel') }}</button>

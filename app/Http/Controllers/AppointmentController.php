@@ -59,17 +59,26 @@ class AppointmentController extends Controller
       return $data;
     }
 
-
-
     public function add(Request $request, $id)
     {
+      $appt_date = trim($request->input('appt_date'));
+      if ($appt_date == '') {
+        $appt_date = date("Y-m-d");
+      }
+
+      if ($appt_date == date("Y-m-d")) {
+        $appt_type = 'Walk-In';
+      } else {
+        $appt_type = 'Appointment';
+      }
+
       DB::table('appointments')->insert([
           'patient_id' => $id,
           'batch_id' => 1,
           'appt_date' => 'Waiting',
           'appt_status' => 'Waiting',
-          'appt_type' => 'Walk-in',
-          'appt_date' => date('Y-m-d H:i:s'),
+          'appt_type' => $appt_type,
+          'appt_date' => $appt_date . ' 00:00:00',
           'created_at' => date('Y-m-d H:i:s'),
           'updated_at' => date('Y-m-d H:i:s'),
       ]);
