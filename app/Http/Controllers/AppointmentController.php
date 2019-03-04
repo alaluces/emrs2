@@ -14,9 +14,9 @@ class AppointmentController extends Controller
     {
       if (is_null($date)) {$date = date("Y-m-d");}      
       $waiting   = $this->getAppointments('Waiting', $date);
-      $done      = $this->getAppointments('Done', $date);
-      $cancelled = $this->getAppointments('Cancelled', $date);
-      $ongiong   = $this->getAppointments('On-Going', $date);
+      $done      = $this->getAppointments('Done', date("Y-m-d"));
+      $cancelled = $this->getAppointments('Cancelled', date("Y-m-d"));
+      $ongiong   = $this->getAppointments('On-Going', date("Y-m-d"));
 
       return view('admin/appointments', [
         'waiting_patients' => $waiting,
