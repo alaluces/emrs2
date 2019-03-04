@@ -66,6 +66,10 @@ class AppointmentController extends Controller
         $appt_date = date("Y-m-d");
       }
 
+      if ($this->isOnWaitList($id, $appt_date)) {
+        return redirect('emrs/appointments')->with(['message' => "Patient is already on waitlist or on-going treatment", 'alert-type' => 'error']);
+      }      
+
       if ($appt_date == date("Y-m-d")) {
         $appt_type = 'Walk-In';
       } else {
@@ -74,8 +78,7 @@ class AppointmentController extends Controller
 
       DB::table('appointments')->insert([
           'patient_id' => $id,
-          'batch_id' => 1,
-          'appt_date' => 'Waiting',
+          'batch_id' => 1,          
           'appt_status' => 'Waiting',
           'appt_type' => $appt_type,
           'appt_date' => $appt_date . ' 00:00:00',
@@ -84,6 +87,22 @@ class AppointmentController extends Controller
       ]);
       return redirect('emrs/appointments')->with(['message' => "Patient added to wait list", 'alert-type' => 'success']);
     }
+
+    public function isOnWaitList($id, $date)
+    {
+      $data = DB::table('appointments')
+      ->where('patient_id', '>=', $id)
+      ->where('appt_date', '>=', $date . ' 00:00:00') 
+      ->where('appt_date', '<=', $date . ' 32:59:59')     
+      ->whereIn('appt_status', ['Waiting', 'On-Going'])
+      ->count();  
+ 
+      if ($data) {
+        return true;
+      } else {
+        return false;
+      }
+    }    
 
     public function cancel($id)
     {
