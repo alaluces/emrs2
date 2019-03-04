@@ -10,22 +10,37 @@ use App\AppointmentTreatment;
 
 class AppointmentController extends Controller
 {
-    public function index()
+    public function index($date = null)
     {
-      $waiting   = $this->getAppointmentsByStatus('Waiting');
-      $done      = $this->getAppointmentsByStatus('Done');
-      $cancelled = $this->getAppointmentsByStatus('Cancelled');
-      $ongiong   = $this->getAppointmentsByStatus('On-Going');
+      if (is_null($date)) {$date = date("Y-m-d");}      
+      $waiting   = $this->getAppointments('Waiting', $date);
+      $done      = $this->getAppointments('Done', $date);
+      $cancelled = $this->getAppointments('Cancelled', $date);
+      $ongiong   = $this->getAppointments('On-Going', $date);
 
       return view('admin/appointments', [
         'waiting_patients' => $waiting,
         'cancelled_patients' => $cancelled,
         'done_patients' => $done,
-        'ongoing_patients' => $ongiong
+        'ongoing_patients' => $ongiong,
+        'appt_date' => $date
       ]);
     }
 
-    public function getAppointmentsByStatus($status)
+    public function setViewDate(Request $request)
+    {
+      $appt_date = trim($request->input('appt_date'));
+      return redirect('emrs/appointments/viewdate/' . $appt_date);
+    }    
+
+    public function setStatusByAppointmentId($status, $id)
+    {
+      $appointment = Appointment::find($id);
+      $appointment->appt_status = $status;
+      $appointment->save();
+    }  
+
+    public function getAppointments($status, $date)
     {
       $data = DB::table('appointments')
       ->join('patients', 'patients.id', '=', 'appointments.patient_id')
@@ -36,7 +51,8 @@ class AppointmentController extends Controller
       'first_name',
       'last_name'
       )
-      ->where('appointments.created_at', '>=', Carbon::today())
+      ->where('appointments.appt_date', '>=', $date . ' 00:00:00') 
+      ->where('appointments.appt_date', '<=', $date . ' 32:59:59')     
       ->where('appointments.appt_status', '=', $status)
       ->get();
 
@@ -50,8 +66,10 @@ class AppointmentController extends Controller
       DB::table('appointments')->insert([
           'patient_id' => $id,
           'batch_id' => 1,
+          'appt_date' => 'Waiting',
           'appt_status' => 'Waiting',
           'appt_type' => 'Walk-in',
+          'appt_date' => date('Y-m-d H:i:s'),
           'created_at' => date('Y-m-d H:i:s'),
           'updated_at' => date('Y-m-d H:i:s'),
       ]);
@@ -60,17 +78,15 @@ class AppointmentController extends Controller
 
     public function cancel($id)
     {
-      $appointment = Appointment::find($id);
-      $appointment->appt_status = 'Cancelled';
-      $appointment->save();
+      $this->setStatusByAppointmentId('Cancelled', $id);
       return redirect('emrs/appointments')->with(['message' => "Appointment cancelled", 'alert-type' => 'success']);
     }
 
     public function startTreatmentByAppointmentId($id)
     {
+      $this->setStatusByAppointmentId('On-Going', $id);
+
       $appointment = Appointment::find($id);
-      $appointment->appt_status = 'On-Going';
-      $appointment->save();
 
       $treatment = New Treatment;
       $treatment->patient_id = $appointment->patient_id;

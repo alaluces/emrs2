@@ -16,10 +16,22 @@
       @include('voyager::alerts')
       <div class="row">
           <div class="col-md-12">
+            <div class="col-md-12">
+              <form action="{{ URL::to('emrs/appointments/setViewDate') }}" id="setViewDate" method="POST">
+                {{ csrf_field() }}
+                View appointments scheduled on: <input type="date" value="{{ $appt_date }}" name="appt_date" >   
+                <button type="submit" name="btn-view" value="1" class="btn btn-success" >View</button>      
+              </form> 
+             </div>         
+          </div>
+      </div>                   
+
+      <div class="row">
+          <div class="col-md-12">
 
             <div class="col-md-6 column">
                 <div class="panel panel-primary">
-                  <div class="panel-heading">Today's Wait List - {{ date("Ymd") }}</div>
+                  <div class="panel-heading">WAITLIST FOR DATE: {{ $appt_date }}</div>
                   <table class="table table-bordered" style="font-size:12px">
                     <thead>
                       <tr><th>#</th><th>Name</th><th>Appointment Type</th><th>Actions</th></tr>
