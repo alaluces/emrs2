@@ -67,8 +67,15 @@ class AppointmentController extends Controller
       }
 
       if ($this->isOnWaitList($id, $appt_date)) {
-        return redirect('emrs/appointments')->with(['message' => "Patient is already on waitlist or on-going treatment", 'alert-type' => 'error']);
-      }      
+        return redirect('emrs/patients')->with(['message' => "Patient is already on waitlist or currently on treatment", 'alert-type' => 'error']);
+      } 
+
+      if ($appt_date < date("Y-m-d")) {
+        return redirect('emrs/patients')->with(['message' => "Booking of past dates is not allowed", 'alert-type' => 'error']);
+
+      }
+
+
 
       if ($appt_date == date("Y-m-d")) {
         $appt_type = 'Walk-In';
