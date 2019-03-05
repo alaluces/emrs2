@@ -13,16 +13,16 @@ class AppointmentController extends Controller
     public function index($date = null)
     {
       if (is_null($date)) {$date = date("Y-m-d");}      
-      $waiting   = $this->getAppointments('Waiting', $date);
-      $done      = $this->getAppointments('Done', date("Y-m-d"));
-      $cancelled = $this->getAppointments('Cancelled', date("Y-m-d"));
-      $ongiong   = $this->getAppointments('On-Going', date("Y-m-d"));
+      $custom_waiting   = $this->getAppointments(['Waiting'], $date);
+      $custom_done = $this->getAppointments(['Done', 'Cancelled'], $date);
+      $today_done = $this->getAppointments(['Done', 'Cancelled'], date("Y-m-d"));
+      $today_ongoing   = $this->getAppointments(['On-Going'], date("Y-m-d"));
 
       return view('admin/appointments', [
-        'waiting_patients' => $waiting,
-        'cancelled_patients' => $cancelled,
-        'done_patients' => $done,
-        'ongoing_patients' => $ongiong,
+        'custom_waiting' => $custom_waiting,
+        'custom_done' => $custom_done,
+        'today_done' => $today_done,
+        'today_ongoing' => $today_ongoing,
         'appt_date' => $date
       ]);
     }
@@ -53,7 +53,7 @@ class AppointmentController extends Controller
       )
       ->where('appointments.appt_date', '>=', $date . ' 00:00:00') 
       ->where('appointments.appt_date', '<=', $date . ' 32:59:59')     
-      ->where('appointments.appt_status', '=', $status)
+      ->whereIn('appointments.appt_status', $status)
       ->get();
 
       return $data;
