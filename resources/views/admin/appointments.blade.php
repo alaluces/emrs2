@@ -62,13 +62,25 @@
             <div class="panel-heading"> CANCELLED AND FINISHED TREATMENTS: {{ $appt_date }}</div>
             <table class="table table-bordered" style="font-size:12px">
               <thead>
-                <tr><th>Name</th><th>Status</th></tr>
+                <tr><th>#</th><th>Name</th><th>Status</th><th>Link</th></tr>
               </thead>
               <tbody>
                 @foreach ($custom_done as $cd)
                     <tr>
+                      <td>{{ $loop->iteration }}</td>
                       <td>{{ $cd->first_name }} {{ $cd->last_name }}</td>
-                      <td>{{ $cd->appt_status }}</td>
+                      <td>
+                        @if ($cd->appt_status == 'Done')
+                          <span class="badge badge-primary">{{ $cd->appt_status }}</span>
+                        @else
+                          <span class="badge badge-danger">{{ $cd->appt_status }}</span>
+                        @endif                        
+                      </td>
+                      <td>
+                        @if ($cd->appt_status == 'Done')
+                        <a href="{{ URL::to('emrs/appointments/view/') }}/{{ $cd->appointment_id }}">View</a>
+                        @endif
+                      </td>                        
                     </tr>
                 @endforeach
               </tbody>
@@ -103,13 +115,25 @@
             <div class="panel-heading"> TODAY'S CANCELLED AND FINISHED TREATMENTS</div>
             <table class="table table-bordered" style="font-size:12px">
               <thead>
-                <tr><th>Name</th><th>Status</th></tr>
+                <tr><th>#</th><th>Name</th><th>Status</th><th>Link</th></tr>
               </thead>
               <tbody>
                 @foreach ($today_done as $td)
                   <tr>
-                    <td>{{ $td->first_name }} {{ $td->last_name }}</td>
-                    <td>{{ $td->appt_status }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $td->first_name }} {{ $td->last_name }}</td>                   
+                    <td>
+                      @if ($td->appt_status == 'Done')
+                        <span class="badge badge-primary">{{ $td->appt_status }}</span>
+                      @else
+                        <span class="badge badge-danger">{{ $td->appt_status }}</span>
+                      @endif                        
+                    </td>                                     
+                    <td>
+                      @if ($td->appt_status == 'Done')
+                      <a href="{{ URL::to('emrs/appointments/view/') }}/{{ $td->appointment_id }}">View</a>
+                      @endif
+                    </td>                    
                   </tr>
                 @endforeach
               </tbody>
