@@ -5,6 +5,7 @@ use App\Http\Controllers\Validator;
 use App\Treatment;
 use App\Patient;
 use App\Appointment;
+use App\Http\Controllers\AppointmentController;
 use App\AppointmentTreatment;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -54,10 +55,9 @@ class TreatmentController extends Controller
 
       if ($request->has('btn-done')) {
         $appointmentTreatment = AppointmentTreatment::where('treatment_id', '=', $id)->first();
-        if ($appointmentTreatment) {
-          $appointment = Appointment::find($appointmentTreatment->appointment_id);
-          $appointment->appt_status = 'Done';
-          $appointment->save();
+        if ($appointmentTreatment) {          
+          $appointment = new AppointmentController;
+          $appointment->setStatusByAppointmentId('Done', $appointmentTreatment->appointment_id);
         }
       }
 
@@ -67,9 +67,11 @@ class TreatmentController extends Controller
     public function view($id)
     {
       $treatment = Treatment::find($id);
+      $appointmentTreatment = AppointmentTreatment::where('treatment_id', '=', $id)->first();
+      $appointment = Appointment::find($appointmentTreatment->appointment_id);
       $patient = Patient::find($treatment->patient_id);
 
-      return view('vendor.voyager.treatments.edit-add', ['patient' => $patient, 'dataTypeContent' => $treatment]);
+      return view('vendor.voyager.treatments.edit-add', ['appt_status' => $appointment->appt_status, 'patient' => $patient, 'dataTypeContent' => $treatment]);
     }
 
 }
