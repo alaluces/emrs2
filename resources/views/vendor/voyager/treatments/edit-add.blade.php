@@ -42,8 +42,8 @@
                           <td>Patient Name</td>
                           <td>
                             <div class="form-inline">
-                                 Gender  <input style="width:50px;" class="form-control" name="weight_dry" value="{{ $patient->gender ?? '' }}">
-                                 Birth Date  <input style="width:120px;" class="form-control" name="weight_pre" value="{{ $patient->birth_date ?? '' }}">
+                                 Gender  <input style="width:50px;" class="form-control" name="gender" value="{{ $patient->gender ?? '' }}">
+                                 Birth Date  <input style="width:120px;" class="form-control" name="birth_date" value="{{ $patient->birth_date ?? '' }}">
                             </div>
                           </td>
                         </tr>
@@ -81,7 +81,7 @@
                              <textarea class="form-control" name="notes">{{ $dataTypeContent->notes ?? '' }}</textarea>
                            </td>
                         </tr>
-
+                        @if ($appt_status != 'Done')
                         <tr>
                            <td></td>
                            <td>
@@ -91,7 +91,7 @@
                              </div>
                            </td>
                         </tr>
-
+                        @endif
 
                     </tbody>
                   </form>

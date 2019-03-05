@@ -75,8 +75,6 @@ class AppointmentController extends Controller
 
       }
 
-
-
       if ($appt_date == date("Y-m-d")) {
         $appt_type = 'Walk-In';
       } else {
