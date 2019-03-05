@@ -26,6 +26,8 @@ $router->get('admin', ['as' => 'admin', function () {
 
 Route::group(['prefix' => 'emrs'], function () {
 
+    Route::get('appointments/viewdate', ['as' => 'appointments.viewDateRedirect', function () { return redirect("/emrs/appointments"); }]);    
+
     // Voyager routes
     Voyager::routes();
 
@@ -33,7 +35,9 @@ Route::group(['prefix' => 'emrs'], function () {
     Route::post('appointments/add/{id}', ['uses' => 'AppointmentController@add', 'as' => 'appointments.add']);
     Route::post('appointments/cancel/{id}', ['uses' => 'AppointmentController@cancel', 'as' => 'appointments.cancel']);
     Route::get('appointments', ['uses' => 'AppointmentController@index', 'as' => 'appointments.index']);
+
     Route::get('appointments/viewdate/{date}', ['uses' => 'AppointmentController@index', 'as' => 'appointments.viewdate']);
+    
     Route::post('appointments/start/{id}', ['uses' => 'AppointmentController@startTreatmentByAppointmentId', 'as' => 'appointments.startTreatmentByAppointmentId']);
     Route::get('appointments/view/{id}', ['uses' => 'AppointmentController@viewTreatmentByAppointmentId', 'as' => 'appointments.viewTreatmentByAppointmentId']);
     Route::post('appointments/setViewDate/', ['uses' => 'AppointmentController@setViewDate', 'as' => 'appointments.setViewDate']);
