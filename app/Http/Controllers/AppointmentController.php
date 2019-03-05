@@ -64,7 +64,7 @@ class AppointmentController extends Controller
       $appt_date = trim($request->input('appt_date'));
       if ($appt_date == '') {
         $appt_date = date("Y-m-d");
-      }
+      }       
 
       if ($this->isOnWaitList($id, $appt_date)) {
         return redirect('emrs/patients')->with(['message' => "Patient is already on waitlist or currently on treatment", 'alert-type' => 'error']);
@@ -74,6 +74,10 @@ class AppointmentController extends Controller
         return redirect('emrs/patients')->with(['message' => "Booking of past dates is not allowed", 'alert-type' => 'error']);
 
       }
+
+      if ($this->isSlotFull($appt_date, 'Waiting', 10)) {
+        return redirect('emrs/patients')->with(['message' => "No more slots available on the wait list", 'alert-type' => 'error']);
+      }      
 
       if ($appt_date == date("Y-m-d")) {
         $appt_type = 'Walk-In';
@@ -90,13 +94,13 @@ class AppointmentController extends Controller
           'created_at' => date('Y-m-d H:i:s'),
           'updated_at' => date('Y-m-d H:i:s'),
       ]);
-      return redirect('emrs/appointments')->with(['message' => "Patient added to wait list", 'alert-type' => 'success']);
+      return redirect('emrs/patients')->with(['message' => "Patient added to wait list", 'alert-type' => 'success']);
     }
 
     public function isOnWaitList($id, $date)
     {
       $data = DB::table('appointments')
-      ->where('patient_id', '>=', $id)
+      ->where('patient_id', '=', $id)
       ->where('appt_date', '>=', $date . ' 00:00:00') 
       ->where('appt_date', '<=', $date . ' 32:59:59')     
       ->whereIn('appt_status', ['Waiting', 'On-Going'])
@@ -109,6 +113,21 @@ class AppointmentController extends Controller
       }
     }    
 
+    public function isSlotFull($date, $status, $limit)
+    {
+      $appt_count = DB::table('appointments')      
+      ->where('appt_date', '>=', $date . ' 00:00:00') 
+      ->where('appt_date', '<=', $date . ' 32:59:59')     
+      ->where('appt_status', '=', $status)
+      ->count();  
+ 
+      if ($appt_count >= $limit) {
+        return true;
+      } else {
+        return false;
+      }
+    }       
+
     public function cancel($id)
     {
       $this->setStatusByAppointmentId('Cancelled', $id);
@@ -117,6 +136,10 @@ class AppointmentController extends Controller
 
     public function startTreatmentByAppointmentId($id)
     {
+      if ($this->isSlotFull(date("Y-m-d"), 'On-Going', 10)) {
+        return redirect('emrs/appointments')->with(['message' => "No more slots available on the treatment list", 'alert-type' => 'error']);
+      } 
+
       $this->setStatusByAppointmentId('On-Going', $id);
 
       $appointment = Appointment::find($id);
@@ -130,7 +153,8 @@ class AppointmentController extends Controller
       $appointmentTreatment->treatment_id = $treatment->id;
       $appointmentTreatment->save();
 
-      return redirect("emrs/treatments/view/" . $treatment->id);
+      //return redirect("emrs/treatments/view/" . $treatment->id);
+      return redirect("emrs/appointments");
     }
 
     public function viewTreatmentByAppointmentId($id)
