@@ -52,7 +52,7 @@
                     @php $x = $loop->count + 1 @endphp
                 @endforeach
                 @for ($i = $x; $i <= 10; $i++)
-                    <tr style="height:60px"><td>{{ $i }}</td><td></td><td></td><td></td></tr>
+                    <tr style="height:61px"><td>{{ $i }}</td><td></td><td></td><td></td></tr>
                 @endfor
 
               </tbody>
@@ -106,7 +106,7 @@
                   @php $x = $loop->count + 1 @endphp
                 @endforeach
                 @for ($i = $x; $i <= 10; $i++)
-                  <tr style="height:60px"><td>{{ $i }}</td><td></td><td></td></tr>
+                  <tr style="height:61px"><td>{{ $i }}</td><td></td><td></td></tr>
                 @endfor
               </tbody>
             </table>
@@ -150,7 +150,7 @@
       <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title"><i class="voyager-calendar"></i> Start patient treatment?</h4>
+            <h4 class="modal-title"><i class="voyager-activity"></i> Start patient treatment?</h4>
         </div>
         <div class="modal-footer">
           <form action="#" id="start_treatment_form" method="POST">

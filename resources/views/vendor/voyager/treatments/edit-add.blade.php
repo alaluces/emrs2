@@ -24,83 +24,201 @@
     </div>
 @endif
 
-  <div class="page-content browse container-fluid">
-      @include('voyager::alerts')
-      <div class="row">
-          <div class="col-md-12">
+<div class="page-content browse container-fluid">
+  @include('voyager::alerts')
+  <div class="row">
 
-            <div class="col-md-6 column">
-                <div class="panel panel-primary">
+  <form action="{{ URL::to('emrs/treatments/save/') }}" id="start_form" method="POST">
+  {{ csrf_field() }}
+  <input type="hidden" name="id" value="{{ $dataTypeContent->id ?? '' }}">
+  <input type="hidden" name="patient_id" value="{{ $patient->id ?? '' }}">  
 
-                  <table class="table table-bordered" style="font-size:12px">
-                      <tbody>
-                        <tr>
-                           <td>Patient Name</td>
-                           <td><input class="form-control" value="{{ $patient->last_name ?? '' }}, {{ $patient->first_name ?? '' }}"></td>
-                       </tr>
-                       <tr>
-                          <td>Patient Name</td>
-                          <td>
-                            <div class="form-inline">
-                                 Gender  <input style="width:50px;" class="form-control" name="gender" value="{{ $patient->gender ?? '' }}">
-                                 Birth Date  <input style="width:120px;" class="form-control" name="birth_date" value="{{ $patient->birth_date ?? '' }}">
-                            </div>
-                          </td>
-                        </tr>
-                        <form action="{{ URL::to('emrs/treatments/save/') }}" id="start_form" method="POST">
-                          {{ csrf_field() }}
-                          <input type="hidden" name="id" value="{{ $dataTypeContent->id ?? '' }}">
-                          <input type="hidden" name="patient_id" value="{{ $patient->id ?? '' }}">
-                         <tr>
-                            <td>Physician</td>
-                            <td><input class="form-control" name="physician" value="{{ $dataTypeContent->physician ?? '' }}"></td>
-                        </tr>
-                        <tr>
-                           <td>Blood Pressure</td>
-                           <td>
-                             <div class="form-inline">
-                                 <input style="width:50px;" class="form-control" name="bp_systolic" value="{{ $dataTypeContent->bp_systolic ?? '' }}">
-                                 / <input style="width:50px;" class="form-control" name="bp_diastolic" value="{{ $dataTypeContent->bp_diastolic ?? '' }}">
-                             </div>
-                           </td>
-                        </tr>
-                        <tr>
-                           <td>Weight</td>
-                           <td>
-                             <div class="form-inline">
-                                 Dry  <input style="width:50px;" class="form-control" name="weight_dry" value="{{ $dataTypeContent->weight_dry ?? '' }}">
-                                 Pre  <input style="width:50px;" class="form-control" name="weight_pre" value="{{ $dataTypeContent->weight_pre ?? '' }}">
-                                 Post <input style="width:50px;" class="form-control" name="weight_post" value="{{ $dataTypeContent->weight_post ?? '' }}">
-                                 Goal <input style="width:50px;" class="form-control" name="weight_goal" value="{{ $dataTypeContent->weight_goal ?? '' }}">
-                             </div>
-                           </td>
-                        </tr>
-                        <tr>
-                           <td>Notes</td>
-                           <td>
-                             <textarea class="form-control" name="notes">{{ $dataTypeContent->notes ?? '' }}</textarea>
-                           </td>
-                        </tr>
-                        @if ($appt_status != 'Done')
-                        <tr>
-                           <td></td>
-                           <td>
-                             <div class="form-inline">
-                               <button type="submit" name="btn-save" value="1" class="btn btn-success" >Save</button>
-                               <button type="submit" name="btn-done" value="1" class="btn btn-info pull-right">Save and complete treatment</button>
-                             </div>
-                           </td>
-                        </tr>
-                        @endif
+    <div class="col-md-12">
+      <div class="col-md-6 column">
+        <div class="panel panel-primary">
+          <div class="panel-heading"> <span>PATIENT INFORMATION</span></div>
+          <table class="table table-bordered" style="font-size:12px">
+            <tbody>
+              <tr>
+                <td>Patient Name</td>
+                <td><input class="form-control" value="{{ $patient->last_name ?? '' }}, {{ $patient->first_name ?? '' }}"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <div class="form-inline">
+                    Gender  <input style="width:50px;" class="form-control" name="gender" value="{{ $patient->gender ?? '' }}">
+                    Birth Date  <input style="width:120px;" class="form-control" name="birth_date" value="{{ $patient->birth_date ?? '' }}">
+                  </div>
+                </td>
+              </tr>
+              
+              <tr>
+                <td>Physician</td>
+                <td><input class="form-control" name="physician" value="{{ $dataTypeContent->physician ?? '' }}"></td>
+              </tr>
+              <tr>
+                <td>Blood Pressure</td>
+                <td>
+                  <div class="form-inline">
+                    <input style="width:50px;" class="form-control" name="bp_systolic" value="{{ $dataTypeContent->bp_systolic ?? '' }}">
+                    / <input style="width:50px;" class="form-control" name="bp_diastolic" value="{{ $dataTypeContent->bp_diastolic ?? '' }}">
+                  </div>
+                 </td>
+              </tr>                    
+            </tbody>                  
+          </table>
+        </div>
 
-                    </tbody>
-                  </form>
-                  </table>
-                </div>
-            </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading"> <span>DIALYSIS PARAMETERS</span></div>
+          <table class="table table-bordered" style="font-size:12px">
+            <tbody>
+              <tr>
+                <td>Dialyzer</td>
+                <td><input class="form-control" name="dp_dialyzer" value="{{ $dataTypeContent->dp_dialyzer ?? '' }}"></td>
+              </tr>
+              <tr>
+                <td>Prescribed UF Time</td>
+                <td><input class="form-control" name="dp_prec_uf_time" value="{{ $dataTypeContent->dp_prec_uf_time ?? '' }}"></td>
+              </tr>              
+              <tr>
+                <td>ISO UF Tme</td>
+                <td><input class="form-control" name="dp_iso_uf_time" value="{{ $dataTypeContent->dp_iso_uf_time ?? '' }}"></td>
+              </tr>
+              <tr>
+                <td>Dialysate</td>
+                <td><input class="form-control" name="dp_dialysate" value="{{ $dataTypeContent->dp_dialysate ?? '' }}"></td>
+              </tr>                                                  
+            </tbody>                  
+          </table>
+        </div>     
+
+        <div class="panel panel-primary">
+          <div class="panel-heading"> <span>ANTICOAGULATION</span></div>
+          <table class="table table-bordered" style="font-size:12px">
+            <tbody>
+              <tr>
+                <td>Heparin</td>
+                <td><input class="form-control" name="ac_heparin" value="{{ $dataTypeContent->ac_heparin ?? '' }}"></td>
+              </tr>
+              <tr>
+                <td>Heparin Prime</td>
+                <td><input class="form-control" name="ac_heparin_prime" value="{{ $dataTypeContent->ac_heparin_prime ?? '' }}"></td>
+              </tr>              
+              <tr>
+                <td>Heparin Rate / Hr</td>
+                <td><input class="form-control" name="ac_heparin_rate" value="{{ $dataTypeContent->ac_heparin_rate ?? '' }}"></td>
+              </tr>
+              <tr>
+                <td>Stop Time</td>
+                <td><input class="form-control" name="ac_stop_time" value="{{ $dataTypeContent->ac_stop_time ?? '' }}"></td>
+              </tr>  
+              <tr>
+                <td>Frequency</td>
+                <td><input class="form-control" name="ac_frequency" value="{{ $dataTypeContent->ac_frequency ?? '' }}"></td>
+              </tr>                                                               
+            </tbody>                  
+          </table>
+        </div> 
+
       </div>
+      <div class="col-md-6 column">
+
+        <div class="panel panel-primary">
+          <div class="panel-heading"> <span>DELIVERY SYSTEM</span></div>
+          <table class="table table-bordered" style="font-size:12px">
+            <tbody>
+              <tr>
+                <td>Machine #</td>
+                <td><input class="form-control" name="ds_machine_number" value="{{ $dataTypeContent->ds_machine_number ?? '' }}"></td>
+              </tr>
+              <tr>
+                <td>Station</td>
+                <td><input class="form-control" name="ds_station" value="{{ $dataTypeContent->ds_station ?? '' }}"></td>
+              </tr>              
+              <tr>
+                <td>Chemical Residue</td>
+                <td><input class="form-control" name="ds_chemical_residue" value="{{ $dataTypeContent->ds_chemical_residue ?? '' }}"></td>
+              </tr>
+              <tr>
+                <td>Conductivity</td>
+                <td><input class="form-control" name="ds_conductivity" value="{{ $dataTypeContent->ds_conductivity ?? '' }}"></td>
+              </tr>  
+              <tr>
+                <td>Prechecks</td>
+                <td><input class="form-control" name="ds_prechecks" value="{{ $dataTypeContent->ds_prechecks ?? '' }}"></td>
+              </tr>                                                               
+            </tbody>                  
+          </table>
+        </div> 
+
+        <div class="panel panel-primary">
+          <div class="panel-heading"> <span>VASCULAR ACCESS</span></div>
+          <table class="table table-bordered" style="font-size:12px">
+            <tbody>
+              <tr>
+                <td>Access Site Assessment</td>
+                <td>
+                  <textarea class="form-control" name="va_site_assessment">{{ $dataTypeContent->va_site_assessment ?? '' }}</textarea>
+                </td>
+              </tr>               
+              <tr>
+                <td>Fistula</td>
+                <td><input class="form-control" name="va_fistula" value="{{ $dataTypeContent->va_fistula ?? '' }}"></td>
+              </tr>
+              <tr>
+                <td>Cathether</td>
+                <td><input class="form-control" name="va_cathether" value="{{ $dataTypeContent->va_cathether ?? '' }}"></td>
+              </tr>              
+                                                             
+            </tbody>                  
+          </table>
+        </div>         
+
+        <div class="panel panel-primary">
+          <div class="panel-heading"> <span>FLUID MANAGEMENT</span></div>
+          <table class="table table-bordered" style="font-size:12px">
+            <tbody>
+              <tr>
+                <td>Weight</td>
+                <td>
+                  <div class="form-inline">
+                    Dry  <input style="width:50px;" class="form-control" name="weight_dry" value="{{ $dataTypeContent->weight_dry ?? '' }}">
+                    Pre  <input style="width:50px;" class="form-control" name="weight_pre" value="{{ $dataTypeContent->weight_pre ?? '' }}">
+                    Post <input style="width:50px;" class="form-control" name="weight_post" value="{{ $dataTypeContent->weight_post ?? '' }}">
+                    Goal <input style="width:50px;" class="form-control" name="weight_goal" value="{{ $dataTypeContent->weight_goal ?? '' }}">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Notes</td>
+                <td>
+                  <textarea class="form-control" name="notes">{{ $dataTypeContent->notes ?? '' }}</textarea>
+                </td>
+              </tr>
+              @if ($appt_status != 'Done')
+              <tr>
+                <td></td>
+                <td>
+                  <div class="form-inline">
+                    <button type="submit" name="btn-save" value="1" class="btn btn-success" >Save</button>
+                    <button type="submit" name="btn-done" value="1" class="btn btn-info pull-right">Save and complete treatment</button>
+                  </div>
+                </td>
+              </tr>
+              @endif              
+            </tbody>                  
+          </table>
+        </div> 
+
+      </div>  
+
     </div>
+
+  </form>
   </div>
+</div>
 
     {{-- start treatment modal --}}
     <div class="modal modal-success fade" tabindex="-1" id="start_modal" role="dialog">
