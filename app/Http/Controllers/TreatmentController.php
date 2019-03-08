@@ -116,7 +116,7 @@ class TreatmentController extends Controller
       $appointment = Appointment::find($appointmentTreatment->appointment_id);
       $patient = Patient::find($treatment->patient_id);
 
-      return view('vendor.voyager.treatments.edit-add', ['appt_status' => $appointment->appt_status, 'patient' => $patient, 'dataTypeContent' => $treatment]);
+      return view('treatments-edit', ['appt_status' => $appointment->appt_status, 'patient' => $patient, 'dataTypeContent' => $treatment]);
     }
 
 }

@@ -18,7 +18,7 @@ class AppointmentController extends Controller
       $today_done = $this->getAppointments(['Done', 'Cancelled'], date("Y-m-d"));
       $today_ongoing   = $this->getAppointments(['On-Going'], date("Y-m-d"));
 
-      return view('admin/appointments', [
+      return view('appointments-view', [
         'custom_waiting' => $custom_waiting,
         'custom_done' => $custom_done,
         'today_done' => $today_done,
@@ -152,8 +152,7 @@ class AppointmentController extends Controller
       $appointmentTreatment->appointment_id = $id;
       $appointmentTreatment->treatment_id = $treatment->id;
       $appointmentTreatment->save();
-
-      //return redirect("emrs/treatments/view/" . $treatment->id);
+      
       return redirect("emrs/appointments");
     }
 
