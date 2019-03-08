@@ -9,7 +9,6 @@
         </h1>
     </div>
 @stop
-{{-- dd($done_cancelled_patients) --}}
 
 @section('content')
   <div class="page-content browse container-fluid">

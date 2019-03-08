@@ -11,7 +11,6 @@
         </h1>
     </div>
 @stop
-{{-- dd($dataTypeContent)--}}
 
 @section('content')
 @if ($errors->any())

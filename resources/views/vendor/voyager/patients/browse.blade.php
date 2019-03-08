@@ -188,12 +188,14 @@
                                             </td>
                                         @endforeach
                                         <td class="no-sort no-click" id="bread-actions">
+
+                                            <a href="javascript:;" title="Appointments" class="btn btn-sm btn-success book" data-id="{{ $data->getKey() }}">
+                                            <i class="voyager-calendar"></i> <span class="hidden-xs hidden-sm">Book</span></a>                                                                                  
                                             @foreach(Voyager::actions() as $action)
                                                 @include('voyager::bread.partials.actions', ['action' => $action])
                                             @endforeach
 
-                                            <a href="javascript:;" title="Appointments" class="btn btn-sm btn-success book" data-id="{{ $data->getKey() }}">
-                                            <i class="voyager-calendar"></i> <span class="hidden-xs hidden-sm">Book</span></a>
+
 
                                         </td>
                                     </tr>
