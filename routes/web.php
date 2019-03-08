@@ -27,12 +27,18 @@ $router->get('admin', ['as' => 'admin', function () {
 Route::group(['prefix' => 'emrs'], function () {
 
     Route::get('appointments/viewdate', ['as' => 'appointments.viewDateRedirect', function () { return redirect("/emrs/appointments"); }]);    
+    Route::get('treatments/view', ['as' => 'treatments.viewRedirect', function () { return redirect("/emrs"); }]);  
+    Route::get('treatments', ['as' => 'treatments.indexRedirect', function () { return redirect("/emrs"); }]);  
+    Route::get('patients/{id}', ['uses' => 'PatientController@index', 'as' => 'patients.index'])->where('id', '[0-9]+');
+
 
     // Voyager routes
     Voyager::routes();
 
     // My custom routes
-    Route::group(['middleware' => ['auth']], function() {
+    Route::group(['middleware' => ['auth']], function() {        
+        Route::get('reports', ['uses' => 'ReportController@index', 'as' => 'reports.index']);
+
         Route::post('appointments/add/{id}', ['uses' => 'AppointmentController@add', 'as' => 'appointments.add']);
         Route::post('appointments/cancel/{id}', ['uses' => 'AppointmentController@cancel', 'as' => 'appointments.cancel']);
         Route::get('appointments', ['uses' => 'AppointmentController@index', 'as' => 'appointments.index']);
